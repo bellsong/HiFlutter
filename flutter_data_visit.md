@@ -1,0 +1,20 @@
+# Flutter 传递数据
+
+在Flutter中，UI是由不同粒度的Widget组成，这也导致了一些数据需要在Widget间传递。一般情况下，都是通过属性来进行数据的传递。但如果涉及到跨层传递时，属性可能需要跨越很多层才能传递给子组件，导致中间很多并不需要这个属性的组件，也得接收其子Widget的数据，繁琐且冗余。
+所以这时候就需要使用其他方案来进行跨层传输，目前主要有InheritedWidget、Notification及EventBus三种方案来实现数据的跨层传输。
+
+1. InheritedWidget
+2. Notification
+3. EventBus
+
+## InheritedWidget
+
+InheritedWidget主要用于底层Widget向上层Widget获取数据，也就是数据的传递方向是从由父Widget传递给子Widget，也就是说两个Widget必须有父子关系才能使用InheritedWidget。
+
+
+## Notification 
+
+Notification主要用于底层Widget向上层Widget传递数据，也就是数据方向的传递方向是从子Widget传递给父Widget。也就是两个Widget必须有父子关系才能使用Notification。
+
+##  EventBus
+InheritedWidget与Notification必须要求两个Widget有父子关系才可进行数据的传输。但如果两个Widget是兄弟关系的话，那么就无法使用InheritedWidget及Notification。这时候就可以使用EventBus来进行数据的传输，当然具有父子关系的Widget也可以使用EventBus来进行数据的传输。
