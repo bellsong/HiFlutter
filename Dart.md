@@ -121,11 +121,96 @@ Dart支持单继承
 
 ## Mixins
 
+Mixin 是一种在多个类层次结构中重用代码的方法。下面的是声明一个 Mixin 的做法：
+
+    mixin Piloted {
+    int astronauts = 1;
+
+    void describeCrew() {
+        print('Number of astronauts: $astronauts');
+    }
+    }
+
+现在你只需使用 Mixin 的方式继承这个类就可将该类中的功能添加给其它类。
+
+
+    class PilotedCraft extends Spacecraft with Piloted {
+    // ···
+    }
+
 ## 接口和抽象类
+
+Dart 没有 interface 关键字。相反，所有的类都隐式定义了一个接口。因此，任意类都可以作为接口被实现。
+
+    class MockSpaceship implements Spacecraft {
+    // ···
+    }
+
+你可以创建一个被任意具体类扩展（或实现）的抽象类。抽象类可以包含抽象方法（不含方法体的方法）。
+
+    abstract class Describable {
+    void describe();
+
+    void describeWithEmphasis() {
+        print('=========');
+        describe();
+        print('=========');
+    }
+    }
+
+任意一个扩展了 Describable 的类都拥有 describeWithEmphasis() 方法，这个方法又会去调用实现类中实现的 describe() 方法。
 
 ## 异步
 
+使用 async 和 await 关键字可以让你避免回调地狱（Callback Hell）并使你的代码更具可读性。
+
+    const oneSecond = Duration(seconds: 1);
+    // ···
+    Future<void> printWithDelay(String message) async {
+    await Future.delayed(oneSecond);
+    print(message);
+    }
+
+
+    Future<void> createDescriptions(Iterable<String> objects) async {
+    for (final object in objects) {
+        try {
+        var file = File('$object.txt');
+        if (await file.exists()) {
+            var modified = await file.lastModified();
+            print(
+                'File for $object already exists. It was modified on $modified.');
+            continue;
+        }
+        await file.create();
+        await file.writeAsString('Start describing $object in this file.');
+        } on IOException catch (e) {
+        print('Cannot create description for $object: $e');
+        }
+    }
+    }
+
 ## 异常
+
+使用 throw 关键字抛出一个异常：
+
+    if (astronauts == 0) {
+    throw StateError('No astronauts.');
+    }
+
+使用 try 语句配合 on 或 catch（两者也可同时使用）关键字来捕获一个异常:
+
+    try {
+    for (final object in flybyObjects) {
+        var description = await File('$object.txt').readAsString();
+        print(description);
+    }
+    } on IOException catch (e) {
+    print('Could not describe object: $e');
+    } finally {
+    flybyObjects.clear();
+    }
+
 
 ## 空安全
 什么是空安全？空安全有什么用？解决了什么问题？
