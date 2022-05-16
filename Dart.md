@@ -1,8 +1,28 @@
 # Dart语言中有意思的地方
 
+## 空安全
+什么是空安全？空安全有什么用？解决了什么问题？
+
+## Dart 集成操作
+list map set
+
+## 箭头语法
+
+=> 这种箭头语法是一种定义函数的方法，该函数将其右边执行的表达式返回给左边
+
+例如 
+
+bool hasEmpty = aListOfString.any((s){
+    return s.isEmpty;
+});
+
+可以直接写成更简单的代码：
+
+bool hasEmypty = aListOfString.any((s) => s.isEmpty);
+
 ## var的语法糖和dynamic
 
-var在赋值是才自推到出类型
+var在赋值时才自推到出类型
 
 dynamic是动态生命，运行时检测
 
